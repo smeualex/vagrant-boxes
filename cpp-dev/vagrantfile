@@ -1,0 +1,37 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Requires the vagrant-vbguest plugin
+#   vagrant plugin install vagrant-vbguest
+
+Vagrant.configure("2") do |config|
+    config.vm.box = "ubuntu/trusty64"
+    #config.vm.box = "centos/7"
+  
+    # sets up the parent directory as the synced folder, so you can place the Vagrantfile in a sub-dir in your workspace
+    # e.g.
+    #   ~/workspace/
+    #   ~/workspace/vm-cpp
+    #   ~/workspace/vm-cpp/Vagrantfile
+    config.vm.synced_folder "..", "/vagrant", owner: "vagrant", group: "vagrant", type: "virtualbox"
+    config.vm.synced_folder "./src", "/home/vagrant/src", owner: "vagrant", group: "vagrant", type: "virtualbox"
+
+    config.vm.provider "virtualbox" do |vb|
+        vb.name = "vm-cpp-dev"
+        vb.cpus = 4 
+        vb.memory = 4096
+    end
+  
+        # set-up a bridged network adapter
+    config.vm.network "public_network", bridge: [
+        "ThinkPad Thunderbolt 3 Dock USB Ethernet",
+        "Intel(R) Ethernet Connection (4) I219-V"
+    ]
+
+    # forward services ports
+    config.vm.network "forwarded_port", guest: 8000, host: 8000
+    config.vm.network "forwarded_port", guest: 8001, host: 8001
+    config.vm.network "forwarded_port", guest: 8002, host: 8002
+
+    config.vm.provision "shell", path:"./install.sh", privileged: false
+  end
