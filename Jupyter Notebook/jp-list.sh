@@ -1,0 +1,1 @@
+vagrant ssh -c "jupyter notebook list"
