@@ -10,3 +10,5 @@ sudo apt-get install -y mc git
 # install gcc, cmake, make and the stuff
 sudo apt-get install -y gcc-5 g++-5 cmake3 make valgrind libpthread-stubs0-dev
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5
+# autoremove unneeded stuff
+sudo apt-get autoremove -y

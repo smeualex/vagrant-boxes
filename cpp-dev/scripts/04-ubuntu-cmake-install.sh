@@ -1,20 +1,21 @@
-#!/bin/sh 
+#!/bin/bash
 
+# cmake and make install
+# parameters: project path, build config (Release, Debug, RelMinSize)
 cmakeInstall(){
-    projectPath=$1
-    cd $projectPath
+    echo "--------------------------------------------"
+    echo "Cmake - $1"
+    cd $1
     mkdir ./build
     cd ./build
-    cmake -DCMAKE_BUILD_TYPE=Release ..
+    cmake -DCMAKE_BUILD_TYPE=$2 ..
     make install
 }
 
 # build and install oatpp and oatpp-swagger
-cmakeInstall /home/vagrant/src/oatpp-project/oatpp
-cmakeInstall /home/vagrant/src/oatpp-project/oatpp-swagger
+cmakeInstall /home/vagrant/src/oatpp-project/oatpp Release
+cmakeInstall /home/vagrant/src/oatpp-project/oatpp-swagger Release
 
-# the microservices example is better built from inside the machine -> vagrant ssh 
-# 
-#/home/vagrant/src/oatpp-project/examples/microservices/build_all.sh
-# start micro-services
-# /home/vagrant/src/oatpp-project/examples/microservices/run_all_microservices.sh
+# build the microservices example
+cd /home/vagrant/src/oatpp-project/examples/microservices
+/home/vagrant/src/oatpp-project/examples/microservices/build_all.sh
